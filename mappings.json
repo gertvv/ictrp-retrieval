@@ -1,0 +1,72 @@
+{
+  "mappings": {
+    "record": {
+      "properties": {
+        "id": { "type": "keyword" },
+        "study_id": { "type": "keyword" },
+        "registry": { "type": "keyword" },
+        "last_updated": { "type": "date" },
+        "date_registered": { "type": "date" },
+        "acronym": { "type": "text" },
+        "public_title": { "type": "text" },
+        "scientific_title": { "type": "text" },
+        "enrollment_date": { "type": "text" },
+        "recruitment_status": { "type": "keyword" },
+        "phase": { "type": "keyword" },
+        "study_type": { "type": "keyword" },
+        "study_design": { "type": "text" },
+        "source_of_support": { "type": "text" },
+        "target_size": { "type": "text" },
+        "eligibility_criteria": {
+          "properties": {
+            "text": { "type": "text" },
+            "agemin": { "type": "text" },
+            "agemax": { "type": "text" },
+            "sex": { "type": "text"}
+          }
+        },
+        "secondary_ids": { "type": "text" },
+        "countries": { "type": "keyword" },
+        "health_conditions": {
+          "properties": {
+            "code": { "type": "text" },
+            "description": { "type": "text" }
+           }
+        },
+        "interventions": {
+          "properties": {
+            "code": { "type": "text" },
+            "description": { "type": "text" },
+            "other_details": { "type": "text" }
+          }
+        },
+        "outcomes": {
+          "properties": {
+            "description": { "type": "text" },
+            "is_primary": { "type": "boolean" },
+            "timepoints": { "type": "text" },
+            "timeframe": { "type": "text" }
+          }
+        },
+        "contacts": {
+          "properties": {
+            "city": { "type": "text" },
+            "first_name": { "type": "text" },
+            "last_name": { "type": "text" },
+            "affiliation": { "type": "text" },
+            "country": { "type": "keyword" },
+            "phone": { "type": "text" },
+            "address": { "type": "text" },
+            "email": { "type": "text" }
+          }
+        },
+        "sponsors": {
+          "properties": {
+            "name": { "type": "text" },
+            "is_primary": { "type": "boolean" }
+          }
+        }
+      }
+    }
+  }
+}
