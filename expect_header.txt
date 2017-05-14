@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DataSet xmlns="http://www.who.int">
+  <xs:schema id="NewDataSet" xmlns="" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xs:element name="NewDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true">
+      <xs:complexType>
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+          <xs:element name="Trial">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="TrialID" type="xs:string" minOccurs="0" />
+                <xs:element name="Primary_Register_text" type="xs:string" minOccurs="0" />
+                <xs:element name="last_updated" type="xs:string" minOccurs="0" />
+                <xs:element name="Date_registration2" type="xs:string" minOccurs="0" />
+                <xs:element name="Primary_sponsor" type="xs:string" minOccurs="0" />
+                <xs:element name="Public_title" type="xs:string" minOccurs="0" />
+                <xs:element name="Scientific_title" type="xs:string" minOccurs="0" />
+                <xs:element name="Acronym" type="xs:string" minOccurs="0" />
+                <xs:element name="Date_enrollement" type="xs:string" minOccurs="0" />
+                <xs:element name="Target_size" type="xs:string" minOccurs="0" />
+                <xs:element name="Recruitment_status2" type="xs:string" minOccurs="0" />
+                <xs:element name="URL" type="xs:string" minOccurs="0" />
+                <xs:element name="Study_type" type="xs:string" minOccurs="0" />
+                <xs:element name="Study_design" type="xs:string" minOccurs="0" />
+                <xs:element name="Phase" type="xs:string" minOccurs="0" />
+                <xs:element name="child_flag" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Country">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="CountryName" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Contacts">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Firstname" type="xs:string" minOccurs="0" />
+                <xs:element name="Lastname" type="xs:string" minOccurs="0" />
+                <xs:element name="Address" type="xs:string" minOccurs="0" />
+                <xs:element name="City" type="xs:string" minOccurs="0" />
+                <xs:element name="Country" type="xs:string" minOccurs="0" />
+                <xs:element name="Telephone" type="xs:string" minOccurs="0" />
+                <xs:element name="Email" type="xs:string" minOccurs="0" />
+                <xs:element name="Affiliation" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Criteria">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Inclusion_criteria" type="xs:string" minOccurs="0" />
+                <xs:element name="Exclusion_criteria" type="xs:string" minOccurs="0" />
+                <xs:element name="Inclusion_agemin" type="xs:string" minOccurs="0" />
+                <xs:element name="Inclusion_agemax" type="xs:string" minOccurs="0" />
+                <xs:element name="Inclusion_sex" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Health_condition">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Condition_FreeText" type="xs:string" minOccurs="0" />
+                <xs:element name="Condition_code" type="xs:int" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Intervention">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Intervention_FreeText" type="xs:string" minOccurs="0" />
+                <xs:element name="Intervention_code" type="xs:int" minOccurs="0" />
+                <xs:element name="Other_details" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Primary_outcome">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Outcome_Name" type="xs:string" minOccurs="0" />
+                <xs:element name="Time_frame1" type="xs:string" minOccurs="0" />
+                <xs:element name="Timepoints" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Secondary_outcome">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Outcome_Name" type="xs:string" minOccurs="0" />
+                <xs:element name="Time_frame2" type="xs:string" minOccurs="0" />
+                <xs:element name="Timepoints" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Secondary_IDs">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="SecondaryID" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Source_support">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Source_Name" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Secondary_Sponsors">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Secondary_Sponsor" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+  </xs:schema>
+  <diffgr:diffgram xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:diffgr="urn:schemas-microsoft-com:xml-diffgram-v1">
