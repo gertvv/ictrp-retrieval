@@ -1,8 +1,6 @@
 #!/usr/bin/python
 import sys
-import os
-import urllib2
-import re
+import gzip
 
 import logging
 logger = logging.getLogger()
@@ -16,7 +14,7 @@ logger.addHandler(ch)
 import download
 
 def main():
-    with open('idlist.txt', 'r') as idfile, open('raw.xml', 'w') as outfile:
+    with open('idlist.txt', 'r') as idfile, gzip.open('raw.xml.gz', 'w') as outfile:
         idlist = idfile.read().splitlines()
         failed = download.downloadRecords(idlist, outfile)
         logger.info("Failed (all attempts): {}".format(str(failed)))
