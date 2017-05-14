@@ -1,5 +1,3 @@
-#!/usr/bin/python
-import sys
 import os
 import urllib2
 import shutil
@@ -8,12 +6,6 @@ import zipfile
 
 import logging
 logger = logging.getLogger()
-logger.setLevel(logging.INFO)
-
-ch = logging.StreamHandler(sys.stdout)
-formatter = logging.Formatter('[%(levelname)s] %(asctime)s - %(message)s')
-ch.setFormatter(formatter)
-logger.addHandler(ch)
 
 import xml.etree.cElementTree as ET
 
@@ -35,12 +27,13 @@ def nctList():
     z.close()
     tmpfile.close()
     ids = map(lambda e: e.text, root.findall('.//nct_id'))
-    logger.info('NCT IDs listed')
+    logger.info('NCT IDs listed: {} IDs found'.format(len(ids)))
     return ids
 
 def ictrpList():
     logger.info("Getting ICTRP ID list")
-    url = 'http://apps.who.int/trialsearch/TrialService.asmx/GetTrials?Title=&username={username}&password={password}'.format(password=os.environ['ICTRP_LIST_USERNAME'], username=os.environ['ICTRP_LIST_PASSWORD'])
+    url = 'http://apps.who.int/trialsearch/TrialService.asmx/GetTrials?Title=&username={username}&password={password}'.format(username=os.environ['ICTRP_LIST_USERNAME'], password=os.environ['ICTRP_LIST_PASSWORD'])
+    logger.info(url)
     request = urllib2.urlopen(url)
     logger.info('Request complete')
     tmpfile = tempfile.TemporaryFile()
@@ -52,11 +45,5 @@ def ictrpList():
     logger.info('Parsed XML')
     tmpfile.close()
     ids = map(lambda e: e.text, root.findall('.//TrialID'))
-    logger.info('ICTRP IDs listed')
+    logger.info('ICTRP IDs listed: {} IDs found'.format(len(ids)))
     return ids
-
-with open('list.txt', 'w') as outfile:
-    for id in ictrpList():
-        outfile.write(id + '\n') 
-    for id in nctList():
-        outfile.write(id + '\n') 
