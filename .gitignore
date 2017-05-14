@@ -1,3 +1,4 @@
 connect.sh
 env.sh
 ssh
+*.pyc
