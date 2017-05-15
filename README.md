@@ -3,15 +3,22 @@ ICTRP record retrieval
 
 Retrieve and normalize records from the ICTRP. Requires access credentials.
 
+License
+---
+
+This repository is made available under the [MIT license](https://opensource.org/licenses/MIT) - see LICENSE.txt.
+
 Dependencies
 ---
 
 Requires python 2.7. For AWS integration (not required), use:
 
+```
 apt install python-pip
 pip install elasticsearch
 pip install aws-requests-auth
 pip install boto3
+```
 
 Environment variables
 ---
