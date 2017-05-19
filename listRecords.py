@@ -3,6 +3,7 @@ import urllib2
 import shutil
 import tempfile
 import zipfile
+import re
 
 import logging
 logger = logging.getLogger()
@@ -46,4 +47,28 @@ def ictrpList():
     tmpfile.close()
     ids = map(lambda e: e.text, root.findall('.//TrialID'))
     logger.info('ICTRP IDs listed: {} IDs found'.format(len(ids)))
+    return ids
+
+def crawlList():
+    baseUrl = "http://apps.who.int/trialsearch/crawl/"
+
+    authinfo = urllib2.HTTPPasswordMgrWithDefaultRealm()
+    authinfo.add_password(None, baseUrl, os.environ['ICTRP_CRAWL_USERNAME'], os.environ['ICTRP_CRAWL_PASSWORD'])
+    handler = urllib2.HTTPBasicAuthHandler(authinfo)
+    opener = urllib2.build_opener(handler)
+    urllib2.install_opener(opener)
+
+    def crawl(page):
+        response = urllib2.urlopen(baseUrl + page)
+        body = response.read()
+        response.close()
+        return body
+
+    pages = re.findall('href\="(crawl[0-9]+.aspx)"', crawl("crawl0.aspx"))
+    logging.info("Crawl - got index, {} pages".format(len(pages)))
+    ids = []
+    for page in pages:
+        data = re.findall('trialid\=([A-Za-z0-9\-\/]+)', crawl(page))
+        logging.info("Crawl - got {}, {} IDs".format(page, len(data)))
+        ids.extend(data)
     return ids
