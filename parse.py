@@ -25,7 +25,6 @@ def parseAll(f):
 def main(argv):
     if argv[1] == '--s3':
         import boto3
-        import gzip
 
         with tempfile.TemporaryFile() as tmpfile:
             s3 = boto3.client('s3')
@@ -34,7 +33,7 @@ def main(argv):
             with gzip.GzipFile(argv[2], 'r', 9, tmpfile) as f:
                 parseAll(f)
     else:
-        with open(argv[1], 'r') as f:
+        with gzip.open(argv[1], 'r') as f:
             parseAll(f)           
 
 if __name__ == '__main__':
