@@ -116,7 +116,8 @@ registries = {
     'ChiCTR': 'ChiCTR',
     'IRCT': 'IRCT',
     'SLCTR': 'SLCTR',
-    'CTRI': 'CTRI'
+    'CTRI': 'CTRI',
+    'PEREC': 'PEREC'
 }
 # Map registry names to manageable shorthand
 def stdRegistry(val): # TODO
@@ -146,7 +147,8 @@ dateRegisteredFormat = {
     'CRIS': '%Y-%m-%d',
     'IRCT': '%Y-%m-%d',
     'SLCTR': '%Y-%m-%d',
-    'CTRI': '%d-%m-%Y'
+    'CTRI': '%d-%m-%Y',
+    'PEREC': '%d/%m/%Y'
 }
     
 # The date registered has a registry-dependent format
