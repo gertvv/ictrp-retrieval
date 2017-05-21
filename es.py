@@ -6,10 +6,10 @@ from aws_requests_auth.aws_auth import AWSRequestsAuth
 from elasticsearch import Elasticsearch, RequestsHttpConnection
 
 es_host = os.environ['AWS_ES_HOST']
-auth = AWSRequestsAuth(aws_access_key=os.environ['AWS_IAM_KEY_ID'],
-                       aws_secret_access_key=os.environ['AWS_IAM_KEY_SECRET'],
+auth = AWSRequestsAuth(aws_access_key=os.environ['AWS_ACCESS_KEY_ID'],
+                       aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'],
                        aws_host=es_host,
-                       aws_region=os.environ['AWS_REGION'],
+                       aws_region=os.environ['AWS_DEFAULT_REGION'],
                        aws_service='es')
 
 # use the requests connection_class and pass in our custom auth class
