@@ -13,7 +13,5 @@ logger.addHandler(ch)
 import listRecords
 
 with open('list.txt', 'w') as outfile:
-    for id in listRecords.ictrpList():
-        outfile.write(id + '\n') 
-    for id in listRecords.nctList():
+    for id in listRecords.allList():
         outfile.write(id + '\n') 

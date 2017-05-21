@@ -19,7 +19,7 @@ import download
 
 def main():
     dataset = 'ictrp-raw-{}-w{}.xml.gz'.format(*datetime.datetime.today().isocalendar())
-    idlist = listRecords.ictrpList() + listRecords.nctList()
+    idlist = listRecords.allList()
     with tempfile.TemporaryFile() as tmpfile:
         with gzip.GzipFile('raw.xml.gz', 'w', 9, tmpfile) as outfile:
             failed = download.downloadRecords(idlist, outfile, True)
