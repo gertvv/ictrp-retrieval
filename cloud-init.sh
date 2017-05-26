@@ -17,7 +17,7 @@ su -c 'git clone https://github.com/gertvv/ictrp-retrieval ictrp' ubuntu
 
 cd ictrp
 
-LOG=`date +"download-s3-%G-w%V.log"`
+export LOG=`date +"download-s3-%G-w%V.log"`
 
 su -c './download-records-s3.py > $LOG' ubuntu
 
