@@ -56,6 +56,22 @@ def processId(outfile, id):
     logger.error("no content for {} after max tries".format(id))
     return False
 
+def downloadParallel(id):
+    if not globals().has_key('logger'):
+        globals()['logger'] = tcplogger.makeLogger('download')
+    logger.info('downloading id: {}'.format(id))
+    for attempt in range(1, 4):
+        try:
+            content = download.reduceXml(download.download(id))
+            if content:
+                return content
+            else:
+                logger.warn("no content for {} (attempt {})".format(id, attempt))
+        except Exception as e:
+            logger.warn("exception for {} (attempt {})".format(id, attempt), exc_info=True)
+    logger.error("no content for {} after max tries".format(id))
+    return None
+
 def downloadRecords(idlist, outfile, pauseForAttempt3=False):
     outfile.write('<ICTRP xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:diffgr="urn:schemas-microsoft-com:xml-diffgram-v1">\n')
     # attempt 1
