@@ -19,6 +19,9 @@ cd ictrp
 
 export LOG=`date +"download-s3-%G-w%V.log"`
 
-su -c './download-records-s3.py > $LOG' ubuntu
+# try to download records; don't exit on error
+su -c './download-records-s3.py 2>&1 > $LOG' ubuntu || true
 
 su -c './s3upload.py $LOG' ubuntu
+
+shutdown -h now
