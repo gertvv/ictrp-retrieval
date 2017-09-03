@@ -1,12 +1,13 @@
 import os
 import urllib2
-import re
 import logging
 import time
 
 logger = logging.getLogger()
 
 urlTemplate = "http://apps.who.int/trialsearch/TrialService.asmx/GetTrialDetails?TrialIDnum={id}&username={username}&password={password}"
+
+from util import stripInvalidXmlEntities
 
 # Read binary to preserve \r\n endings
 with open('expect_header.txt', 'r') as f:
@@ -36,9 +37,7 @@ def reduceXml(xml):
     if not xml.endswith(expectedFooter): raise Exception("Footer did not match")
     # Extract the content portion of the XML
     xml = xml[len(expectedHeader):-len(expectedFooter)]
-    # ChiCTR records may (very rarely) contain invalid XML entities
-    # The following were seen: &#x2;, &#x8;, &#x1F;
-    xml = re.sub("&#x([0-8BCEF]|1[0-9A-F]);", "", xml)
+    xml = stripInvalidXmlEntities(xml)
     return xml
 
 def processId(outfile, id):

@@ -10,6 +10,8 @@ logger = logging.getLogger()
 
 import xml.etree.cElementTree as ET
 
+from util import stripInvalidXmlEntities
+
 def nctList():
     logger.info("Getting NCT ID list")
     url = 'https://clinicaltrials.gov/ct2/results/download?flds=k&down_stds=all&down_typ=fields&down_flds=shown&down_fmt=xml&show_down=Y'
@@ -37,14 +39,11 @@ def ictrpList():
     logger.info(url)
     request = urllib2.urlopen(url)
     logger.info('Request complete')
-    tmpfile = tempfile.TemporaryFile()
-    shutil.copyfileobj(request, tmpfile)
+    xml = request.read()
     request.close()
-    logger.info('Copied to temporary file')
-    tmpfile.seek(0)
-    root = ET.parse(tmpfile)
+    logger.info('Captured XML string')
+    root = ET.fromstring(stripInvalidXmlEntities(xml))
     logger.info('Parsed XML')
-    tmpfile.close()
     ids = map(lambda e: e.text, root.findall('.//TrialID'))
     logger.info('ICTRP IDs listed: {} IDs found'.format(len(ids)))
     return ids
