@@ -27,7 +27,8 @@ def main():
         tmpfile.seek(0)
         # write to s3
         s3 = boto3.resource('s3')
-        s3.Bucket('ictrp-data').put_object(Key=dataset, Body=tmpfile)
+        object = s3.Bucket('ictrp-data').put_object(Key=dataset, Body=tmpfile)
+        object.Acl().put(ACL='public-read')
 
 if __name__ == "__main__":
     main()
