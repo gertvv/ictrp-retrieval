@@ -18,7 +18,7 @@ import listRecords
 import download
 
 def main():
-    dataset = 'ictrp-raw-{}-w{}.xml.gz'.format(*datetime.datetime.today().isocalendar())
+    dataset = 'ictrp-raw-{}-w{:02d}.xml.gz'.format(*datetime.datetime.today().isocalendar())
     idlist = listRecords.allList()
     with tempfile.TemporaryFile() as tmpfile:
         with gzip.GzipFile('raw.xml.gz', 'w', 9, tmpfile) as outfile:
