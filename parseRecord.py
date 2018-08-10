@@ -1,4 +1,5 @@
 from datetime import datetime
+import sys
 
 def toTrialId(id):
     if id.startswith("EUCTR"):
@@ -153,7 +154,11 @@ dateRegisteredFormat = {
     
 # The date registered has a registry-dependent format
 def stdDateRegistered(reg, val): # TODO
-    return datetime.strptime(val, dateRegisteredFormat[reg]).strftime('%Y-%m-%d')
+    try: 
+        return datetime.strptime(val, dateRegisteredFormat[reg]).strftime('%Y-%m-%d') if val != None else None
+    except:
+        sys.stderr.write("Date {} for {} does not match {}\n".format(val, reg, dateRegisteredFormat[reg]))
+        raise
 
 def parseRecord(root):
     registry = stdRegistry(textOf(root.find('./Trial/Primary_Register_text')))
