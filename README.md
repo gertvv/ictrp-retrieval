@@ -32,6 +32,12 @@ Another set of IDs can be obtained by querying ClinicalTrials.gov - but this may
 
 It is possible to download a list of records from the Advanced Search page in XML format (choose 'ALL' recruitment status and set no other query terms). However this list omits duplicates, and the XML format has a number of shortcomings, most seriously that values from arrays are concatenated into semi-colon separated strings, without taking into account semi-colons in the source strings. Fetching the data automatically is also made difficult by several layers of forms to go through. In addition, as of 2017-05-21, this method did not funtion for several weeks.
 
+Wishlist
+---
+
+ - Standardise the country field: common misspellings and non-country denominations. SLCTR and JPRN tend to have comma-separated lists instead of using country field multiplicity. Separate country and other denominations (e.g. "Asia (except Japan)").
+ - Standardise the recruitment status field
+
 License
 ---
 

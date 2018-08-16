@@ -15,7 +15,15 @@ formatter = logging.Formatter('[%(levelname)s] %(asctime)s - %(message)s')
 ch.setFormatter(formatter)
 logger.addHandler(ch)
 
-if (sys.argv[1] == '--aws'):
+if (len(sys.argv) != 4):
+    logger.error("Usage: ./es.py <mode> <index> <filename>")
+    sys.exit(1)
+
+mode = sys.argv[1]
+index = sys.argv[2]
+fname = sys.argv[3]
+
+if (mode == '--aws'):
     from aws_requests_auth.aws_auth import AWSRequestsAuth
 
     es_host = os.environ['AWS_ES_HOST']
@@ -30,12 +38,11 @@ if (sys.argv[1] == '--aws'):
                               port=80,
                               connection_class=RequestsHttpConnection,
                               http_auth=auth)
-elif (sys.argv[1] == '--local'):
+elif (mode == '--local'):
     es = Elasticsearch(host='localhost', port=9200, connection_class=RequestsHttpConnection)
 
 print(es.info())
 
-index = 'ictrp-{}-w{:02d}'.format(*datetime.datetime.today().isocalendar())
 with open('mappings.json') as f: indexDef = f.read()
 
 if (es.indices.exists(index=index)):
@@ -49,7 +56,7 @@ if (not res['acknowledged']):
     logger.error("Could not create index {}".format(index))
     raise "Failed to create index"
 
-with open(sys.argv[2], 'r') as f:
+with open(fname, 'r') as f:
     lineNo = 0
     for l in f:
         if (lineNo % 1000 == 0):

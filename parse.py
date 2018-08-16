@@ -9,6 +9,15 @@ import xml.etree.cElementTree as ET
 
 from parseRecord import parseRecord
 
+import logging
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+
+ch = logging.StreamHandler(sys.stderr)
+formatter = logging.Formatter('[%(levelname)s] %(asctime)s - %(message)s')
+ch.setFormatter(formatter)
+logger.addHandler(ch)
+
 def parseAll(f):
     text = ''
     for key,group in itertools.groupby(f, lambda l: '<NewDataSet ' in l or '</ICTRP>' in l):

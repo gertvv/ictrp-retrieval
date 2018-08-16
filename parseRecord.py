@@ -1,4 +1,5 @@
 from datetime import datetime
+from stdCountries import stdCountries
 import sys
 
 def toTrialId(id):
@@ -177,7 +178,9 @@ def parseRecord(root):
     record['study_type'] = textOf(root.find('./Trial/Study_type'))
     record['study_design'] = stripHtml(textOf(root.find('./Trial/Study_design')))
     record['phase'] = textOf(root.find('./Trial/Phase'))
-    record['countries'] = map(lambda c: textOf(c.find('./CountryName')), root.iter('Country'))
+    countries = stdCountries(registry, map(lambda c: textOf(c.find('./CountryName')), root.iter('Country')))
+    record['countries'] = countries['countries']
+    record['countries_non_standard'] = countries['unmatched']
     record['contacts'] = map(parseContact, root.iter('Contacts'))
     record['eligibility_criteria'] = parseCriteria(root.find('./Criteria'))
     record['health_conditions'] = map(parseCondition, root.iter('Health_condition'))

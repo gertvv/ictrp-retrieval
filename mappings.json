@@ -27,6 +27,7 @@
         },
         "secondary_ids": { "type": "text" },
         "countries": { "type": "keyword" },
+        "countries_non_standard": { "type": "keyword"},
         "health_conditions": {
           "properties": {
             "code": { "type": "text" },
