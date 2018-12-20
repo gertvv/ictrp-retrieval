@@ -177,6 +177,8 @@ def parseRecord(root):
     record['recruitment_status'] = textOf(root.find('./Trial/Recruitment_status2'))
     record['study_type'] = textOf(root.find('./Trial/Study_type'))
     record['study_design'] = stripHtml(textOf(root.find('./Trial/Study_design')))
+    record['allocation'] = stripHtml(textOf(root.find('./Trial/Allocation')))
+    record['assignment'] = stripHtml(textOf(root.find('./Trial/Assignement')))
     record['phase'] = textOf(root.find('./Trial/Phase'))
     countries = stdCountries(registry, map(lambda c: textOf(c.find('./CountryName')), root.iter('Country')))
     record['countries'] = countries['countries']
