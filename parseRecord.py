@@ -161,6 +161,23 @@ def stdDateRegistered(reg, val): # TODO
         sys.stderr.write("Date {} for {} does not match {}\n".format(val, reg, dateRegisteredFormat[reg]))
         raise
 
+def parseResults(elem):
+    results = {}
+    results['posted'] = textOf(elem.find('results_yes_no'))
+    results['date_posted'] = textOf(elem.find('results_date_posted'))
+    results['date_completed'] = textOf(elem.find('results_date_completed'))
+    results['href'] = textOf(elem.find('results_url_link'))
+    return results
+
+def parseEthicsReview(elem):
+    ethics = {}
+    ethics['status'] = textOf(elem.find('Status')) if elem else ''
+    ethics['approval_date'] = textOf(elem.find('Approval_Date')) if elem else ''
+    ethics['contact_name'] = textOf(elem.find('Contact_Name')) if elem else ''
+    ethics['contact_email'] = textOf(elem.find('Contact_Email')) if elem else ''
+    ethics['contact_address'] = textOf(elem.find('Contact_Address')) if elem else ''
+    return ethics
+
 def parseRecord(root):
     registry = stdRegistry(textOf(root.find('./Trial/Primary_Register_text')))
     record = {}
@@ -191,4 +208,6 @@ def parseRecord(root):
     record['secondary_ids'] = [i for i in map(parseSecondaryId, root.iter('Secondary_IDs'))if not i is None]
     record['source_of_support'] = textOf(root.find('./Source_support/Source_Name')) # TODO: check only 1 can exist
     record['sponsors'] = [ { 'name': textOf(root.find('./Trial/Primary_sponsor')), 'is_primary': True } ] + map(parseSecondarySponsor, root.iter('Secondary_Sponsors'))
+    record['results'] = parseResults(root.find('./Results'))
+    record['ethics_review'] = parseEthicsReview(root.find('./Ethics_review'));
     return record

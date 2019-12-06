@@ -116,6 +116,27 @@
               </xs:sequence>
             </xs:complexType>
           </xs:element>
+          <xs:element name="Results">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="results_yes_no" type="xs:string" minOccurs="0" />
+                <xs:element name="results_date_posted" type="xs:string" minOccurs="0" />
+                <xs:element name="results_url_link" type="xs:string" minOccurs="0" />
+                <xs:element name="results_date_completed" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="Ethics_review">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="Status" type="xs:string" minOccurs="0" />
+                <xs:element name="Approval_Date" type="xs:dateTime" minOccurs="0" />
+                <xs:element name="Contact_Name" type="xs:string" minOccurs="0" />
+                <xs:element name="Contact_Address" type="xs:string" minOccurs="0" />
+                <xs:element name="Contact_Email" type="xs:string" minOccurs="0" />
+              </xs:sequence>
+            </xs:complexType>
+          </xs:element>
         </xs:choice>
       </xs:complexType>
     </xs:element>
