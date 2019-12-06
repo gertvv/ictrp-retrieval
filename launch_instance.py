@@ -17,7 +17,7 @@ def lambda_handler(event, context):
             KeyName='ictrp',
             UserData=script,
             SecurityGroups=['launch-wizard-1'],
-            InstanceType='t2.micro',
+            InstanceType='t3.small',
             InstanceInitiatedShutdownBehavior='terminate')
 
         logging.info(instance[0])
