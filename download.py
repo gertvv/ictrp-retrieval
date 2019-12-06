@@ -26,6 +26,9 @@ def download(id):
     request.close()
     return response
 
+class XmlSchemaChanged(Exception):
+    pass
+
 def reduceXml(xml):
     # Convert newlines and add a trailing newline for sanity
     xml = xml.replace('\r\n', '\n') + '\n'
@@ -33,8 +36,8 @@ def reduceXml(xml):
     # exist, or that it is temporarily not being returned
     if xml.endswith(emptyFooter): return ""
     # Check header and footer are as expected
-    if not xml.startswith(expectedHeader): raise Exception("Header did not match")
-    if not xml.endswith(expectedFooter): raise Exception("Footer did not match")
+    if not xml.startswith(expectedHeader): raise XmlSchemaChanged("Header did not match")
+    if not xml.endswith(expectedFooter): raise XmlSchemaChanged("Footer did not match")
     # Extract the content portion of the XML
     xml = xml[len(expectedHeader):-len(expectedFooter)]
     xml = stripInvalidXmlEntities(xml)
@@ -50,6 +53,8 @@ def processId(outfile, id):
                 return True
             else:
                 logger.warn("no content for {} (attempt {})".format(id, attempt))
+        except XmlSchemaChanged as e:
+            raise e
         except Exception as e:
             logger.warn("exception for {} (attempt {})".format(id, attempt), exc_info=True)
     logger.error("no content for {} after max tries".format(id))
