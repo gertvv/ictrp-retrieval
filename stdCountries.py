@@ -31,9 +31,12 @@ def stdCountry(country):
     return { "countries": [ isoCountry["name"] ] }
 
 def stdCountries(registry, countries):
+    countries = list(filter(None, map(lambda x: x.strip(), countries)))
+    if not countries:
+        return { "countries": [], "unmatched": [] }
     if (registry == "SLCTR" or registry == "JPRN"):
         if (len(countries) > 1):
-            logger.warn("Encountered {} record with > 1 country entry".format(registry))
+            logger.warn("Encountered {} record with > 1 country entry: {}".format(registry, countries))
         countries = reduce(operator.concat, map(lambda s: s.split(","), countries))
         if (registry ==  "SLCTR"):
             countries = reduce(lambda a, b: a[:-1] + [a[-1] + "," + b] if len(b) > 0 and b[0] == " " else a + [b], countries, [])
@@ -42,7 +45,6 @@ def stdCountries(registry, countries):
     def collect(prop):
         return reduce(operator.concat, map(lambda x: x.get(prop) if x.get(prop) else [], result), [])
     result = { "countries": collect("countries"), "unmatched": collect("unmatched") }
-    logger.info("{} => {}".format(json.dumps(countries), json.dumps(result)))
     return result
 
 class TestStdCountry(unittest.TestCase):
@@ -85,6 +87,10 @@ class TestStdCountries(unittest.TestCase):
         self.assertEqual(stdCountries("SLCTR", ["Afghanistan,Iran, Islamic Republic of,Belarus"]), { "countries": ["Afghanistan", "Iran (Islamic Republic of)", "Belarus"], "unmatched": [] })
         self.assertEqual(stdCountries("SLCTR", ["Afghanistan,Belarus,Lollipopland"]), { "countries": ["Afghanistan", "Belarus"], "unmatched": ["Lollipopland"] })
         self.assertEqual(stdCountries("JPRN", ["Afghanistan,Iran,Islamic Republic of,Belarus"]), { "countries": ["Afghanistan", "Iran (Islamic Republic of)", "Belarus"], "unmatched": ["Islamic Republic of"] })
+
+    def test_empty(self):
+        self.assertEqual(stdCountries("JPRN", ["Japan", "", ""]), { "countries": [ "Japan" ], "unmatched": [] })
+        self.assertEqual(stdCountries("JPRN", ["", ""]), { "countries": [], "unmatched": [] })
 
 if __name__ == "__main__":
     unittest.main()
