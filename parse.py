@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 import sys
 import json
 import itertools
@@ -20,16 +20,16 @@ logger.addHandler(ch)
 
 def parseAll(f):
     text = ''
-    for key,group in itertools.groupby(f, lambda l: '<NewDataSet ' in l or '</ICTRP>' in l):
+    for key,group in itertools.groupby(f, lambda l: b'<NewDataSet ' in l or b'</ICTRP>' in l):
         if key:
             line = list(group)[0]
-            if '<NewDataSet' in line:
+            if b'<NewDataSet' in line:
                 text = '<NewDataSet xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:diffgr="urn:schemas-microsoft-com:xml-diffgram-v1">'
             else:
                 text = '</ICTRP>'
         elif text != '':
-            text = text + ''.join(group)
-            print json.dumps(parseRecord(ET.fromstring(text)))
+            text = text + ''.join([g.decode('utf-8') for g in group])
+            print(json.dumps(parseRecord(ET.fromstring(text))))
 
 def main(argv):
     if argv[1] == '--s3':

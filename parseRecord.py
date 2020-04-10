@@ -200,14 +200,14 @@ def parseRecord(root):
     countries = stdCountries(registry, map(lambda c: textOf(c.find('./CountryName')), root.iter('Country')))
     record['countries'] = countries['countries']
     record['countries_non_standard'] = countries['unmatched']
-    record['contacts'] = map(parseContact, root.iter('Contacts'))
+    record['contacts'] = list(map(parseContact, root.iter('Contacts')))
     record['eligibility_criteria'] = parseCriteria(root.find('./Criteria'))
-    record['health_conditions'] = map(parseCondition, root.iter('Health_condition'))
-    record['interventions'] = map(parseIntervention, root.iter('Intervention'))
+    record['health_conditions'] = list(map(parseCondition, root.iter('Health_condition')))
+    record['interventions'] = list(map(parseIntervention, root.iter('Intervention')))
     record['outcomes'] = list(map(parsePrimaryOutcome, root.iter('Primary_outcome'))) + list(map(parseSecondaryOutcome, root.iter('Secondary_outcome')))
     record['secondary_ids'] = [i for i in map(parseSecondaryId, root.iter('Secondary_IDs'))if not i is None]
     record['source_of_support'] = textOf(root.find('./Source_support/Source_Name')) # TODO: check only 1 can exist
-    record['sponsors'] = [ { 'name': textOf(root.find('./Trial/Primary_sponsor')), 'is_primary': True } ] + map(parseSecondarySponsor, root.iter('Secondary_Sponsors'))
+    record['sponsors'] = [ { 'name': textOf(root.find('./Trial/Primary_sponsor')), 'is_primary': True } ] + list(map(parseSecondarySponsor, root.iter('Secondary_Sponsors')))
     record['results'] = parseResults(root.find('./Results'))
     record['ethics_review'] = parseEthicsReview(root.find('./Ethics_review'));
     return record
