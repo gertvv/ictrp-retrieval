@@ -150,7 +150,8 @@ dateRegisteredFormat = {
     'IRCT': '%Y-%m-%d',
     'SLCTR': '%Y-%m-%d',
     'CTRI': '%d-%m-%Y',
-    'REPEC': '%d/%m/%Y'
+    'REPEC': '%d/%m/%Y',
+    'LBCTR': '%d/%m/%Y'
 }
     
 # The date registered has a registry-dependent format
