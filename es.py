@@ -24,22 +24,19 @@ index = sys.argv[2]
 fname = sys.argv[3]
 
 if (mode == '--aws'):
-    from aws_requests_auth.aws_auth import AWSRequestsAuth
+    from requests_aws4auth import AWS4Auth
 
     es_host = os.environ['AWS_ES_HOST']
-    auth = AWSRequestsAuth(aws_access_key=os.environ['AWS_ACCESS_KEY_ID'],
-                           aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'],
-                           aws_host=es_host,
-                           aws_region=os.environ['AWS_DEFAULT_REGION'],
-                           aws_service='es')
+    auth = AWS4Auth(os.environ['AWS_ACCESS_KEY_ID'],
+                    os.environ['AWS_SECRET_ACCESS_KEY'],
+                    os.environ['AWS_DEFAULT_REGION'],
+                    'es')
 
     # use the requests connection_class and pass in our custom auth class
-    es = Elasticsearch(host=es_host,
-                              port=80,
-                              connection_class=RequestsHttpConnection,
-                              http_auth=auth)
+    es = Elasticsearch(host=es_host, scheme='https', port=443, http_auth=auth,
+            connection_class=RequestsHttpConnection)
 elif (mode == '--local'):
-    es = Elasticsearch(host='localhost', port=9200, connection_class=RequestsHttpConnection)
+    es = Elasticsearch(host='localhost', port=9200, scheme='http')
 
 print(es.info())
 
@@ -62,7 +59,7 @@ with open(fname, 'r') as f:
         if (lineNo % 1000 == 0):
             logger.info("Inserted {:,} records".format(lineNo))
         id = json.loads(l)['id']
-        res = es.create(index=index, doc_type='record', id=id, body=l)
+        res = es.create(index=index, id=id, body=l)
         if (res['result'] != 'created'):
             logger.error("Failed to create record for {}: {}".format(id, res))
         lineNo += 1
