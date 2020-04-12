@@ -119,7 +119,8 @@ registries = {
     'IRCT': 'IRCT',
     'SLCTR': 'SLCTR',
     'CTRI': 'CTRI',
-    'REPEC': 'REPEC'
+    'REPEC': 'REPEC',
+    'LBCTR': 'LBCTR'
 }
 # Map registry names to manageable shorthand
 def stdRegistry(val): # TODO
