@@ -46,12 +46,12 @@ if (es.indices.exists(index=index)):
     res = es.indices.delete(index=index)
     if (not res['acknowledged']):
         logger.error("Could not delete index {}".format(index))
-        raise "Failed to delete index"
+        raise Exception("Failed to delete index")
 
 res = es.indices.create(index=index, body=indexDef)
 if (not res['acknowledged']):
     logger.error("Could not create index {}".format(index))
-    raise "Failed to create index"
+    raise Exception("Failed to create index")
 
 with open(fname, 'r') as f:
     lineNo = 0

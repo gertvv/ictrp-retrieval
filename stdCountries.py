@@ -14,11 +14,11 @@ isoCountries = {}
 with open("countries-iso-3166.json") as f:
     isoCountries = dict((mangleCountryName(c["name"]), c) for c in json.load(f))
     parenthetical = re.compile("^([^\(]*) \(([^\)]*)\)$")
-    paren = list(filter(lambda x: not not x[0], map(lambda c: [parenthetical.match(c["name"]), c], isoCountries.values())))
+    paren = [x for x in [[parenthetical.match(c["name"]), c] for c in list(isoCountries.values())] if not not x[0]]
     for [m, c] in paren:
         isoCountries[mangleCountryName(m.groups()[1] + " " + m.groups()[0])] = c
     with open("countries-common-names.json") as g:
-        for name, alt_names in json.load(g).items():
+        for name, alt_names in list(json.load(g).items()):
             for alt_name in alt_names:
                 isoCountries[mangleCountryName(alt_name)] = isoCountries[mangleCountryName(name)]
 
@@ -31,19 +31,19 @@ def stdCountry(country):
     return { "countries": [ isoCountry["name"] ] }
 
 def stdCountries(registry, countries):
-    countries = list(filter(None, map(lambda x: x.strip(), countries)))
+    countries = [_f for _f in [x.strip() for x in countries] if _f]
     if not countries:
         return { "countries": [], "unmatched": [] }
     if (registry == "SLCTR" or registry == "JPRN"):
         if (len(countries) > 1):
             logger.warn("Encountered {} record with > 1 country entry: {}".format(registry, countries))
-        countries = reduce(operator.concat, map(lambda s: s.split(","), countries))
+        countries = reduce(operator.concat, [s.split(",") for s in countries])
         if (registry ==  "SLCTR"):
             countries = reduce(lambda a, b: a[:-1] + [a[-1] + "," + b] if len(b) > 0 and b[0] == " " else a + [b], countries, [])
-        countries = list(map(lambda x: x.strip(), countries))
+        countries = [x.strip() for x in countries]
     result = list(map(stdCountry, countries))
     def collect(prop):
-        return reduce(operator.concat, map(lambda x: x.get(prop) if x.get(prop) else [], result), [])
+        return reduce(operator.concat, [x.get(prop) if x.get(prop) else [] for x in result], [])
     result = { "countries": collect("countries"), "unmatched": collect("unmatched") }
     return result
 

@@ -17,7 +17,7 @@ es = Elasticsearch(host=es_host,
                    port=80,
                    connection_class=RequestsHttpConnection,
                    http_auth=auth)
-print es.info()
+print(es.info())
 
 index = 'ictrp-{}-w{}'.format(*datetime.datetime.today().isocalendar())
 res = es.search(index=index, doc_type='record', body='{ "query": { "query_string": { "query": "public_title:diabetes" } } }')

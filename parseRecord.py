@@ -199,7 +199,7 @@ def parseRecord(root):
     record['allocation'] = stripHtml(textOf(root.find('./Trial/Allocation')))
     record['assignment'] = stripHtml(textOf(root.find('./Trial/Assignement')))
     record['phase'] = textOf(root.find('./Trial/Phase'))
-    countries = stdCountries(registry, map(lambda c: textOf(c.find('./CountryName')), root.iter('Country')))
+    countries = stdCountries(registry, [textOf(c.find('./CountryName')) for c in root.iter('Country')])
     record['countries'] = countries['countries']
     record['countries_non_standard'] = countries['unmatched']
     record['contacts'] = list(map(parseContact, root.iter('Contacts')))

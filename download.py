@@ -1,5 +1,5 @@
 import os
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import logging
 import time
 
@@ -21,7 +21,7 @@ def download(id):
     url = urlTemplate.format(id=id,
         username=os.environ['ICTRP_GET_USERNAME'],
         password=os.environ['ICTRP_GET_PASSWORD'])
-    request = urllib2.urlopen(url, timeout=60)
+    request = urllib.request.urlopen(url, timeout=60)
     response = request.read()
     request.close()
     return response

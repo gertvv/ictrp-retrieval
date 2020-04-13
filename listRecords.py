@@ -1,5 +1,5 @@
 import os
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import shutil
 import tempfile
 import zipfile
@@ -15,7 +15,7 @@ from util import stripInvalidXmlEntities
 def nctList():
     logger.info("Getting NCT ID list")
     url = 'https://clinicaltrials.gov/ct2/results/download?flds=k&down_stds=all&down_typ=fields&down_flds=shown&down_fmt=xml&show_down=Y'
-    request = urllib2.urlopen(url)
+    request = urllib.request.urlopen(url)
     logger.info('Request complete')
     tmpfile = tempfile.TemporaryFile()
     shutil.copyfileobj(request, tmpfile)
@@ -29,7 +29,7 @@ def nctList():
     xml.close()
     z.close()
     tmpfile.close()
-    ids = map(lambda e: e.text, root.findall('.//nct_id'))
+    ids = [e.text for e in root.findall('.//nct_id')]
     logger.info('NCT IDs listed: {} IDs found'.format(len(ids)))
     return ids
 
@@ -37,28 +37,28 @@ def ictrpList():
     logger.info("Getting ICTRP ID list")
     url = 'http://apps.who.int/trialsearch/TrialService.asmx/GetTrials?Title=&username={username}&password={password}'.format(username=os.environ['ICTRP_LIST_USERNAME'], password=os.environ['ICTRP_LIST_PASSWORD'])
     logger.info(url)
-    request = urllib2.urlopen(url)
+    request = urllib.request.urlopen(url)
     logger.info('Request complete')
     xml = request.read()
     request.close()
     logger.info('Captured XML string')
     root = ET.fromstring(stripInvalidXmlEntities(xml))
     logger.info('Parsed XML')
-    ids = map(lambda e: e.text, root.findall('.//TrialID'))
+    ids = [e.text for e in root.findall('.//TrialID')]
     logger.info('ICTRP IDs listed: {} IDs found'.format(len(ids)))
     return ids
 
 def crawlList():
     baseUrl = "http://apps.who.int/trialsearch/crawl/"
 
-    authinfo = urllib2.HTTPPasswordMgrWithDefaultRealm()
+    authinfo = urllib.request.HTTPPasswordMgrWithDefaultRealm()
     authinfo.add_password(None, baseUrl, os.environ['ICTRP_CRAWL_USERNAME'], os.environ['ICTRP_CRAWL_PASSWORD'])
-    handler = urllib2.HTTPBasicAuthHandler(authinfo)
-    opener = urllib2.build_opener(handler)
-    urllib2.install_opener(opener)
+    handler = urllib.request.HTTPBasicAuthHandler(authinfo)
+    opener = urllib.request.build_opener(handler)
+    urllib.request.install_opener(opener)
 
     def crawl(page):
-        response = urllib2.urlopen(baseUrl + page)
+        response = urllib.request.urlopen(baseUrl + page)
         body = response.read()
         response.close()
         return body
