@@ -1,5 +1,5 @@
-connect.sh
-env.sh
+.git
+advSearch
 ssh
 *.csv
 *.gz
@@ -7,6 +7,7 @@ ssh
 *.log
 *.ndjson
 *.pyc
+*.sh
 *.tar
 *.xlsx
 *.xml
