@@ -9,6 +9,9 @@ urlTemplate = "http://apps.who.int/trialsearch/TrialService.asmx/GetTrialDetails
 
 from util import stripInvalidXmlEntities
 
+import awsSecrets
+ICTRP_SECRETS = awsSecrets.getSecrets()
+
 # Read binary to preserve \r\n endings
 with open('expect_header.txt', 'r') as f:
     expectedHeader = f.read()
@@ -19,10 +22,10 @@ with open('empty_footer.txt', 'r') as f:
 
 def download(id):
     url = urlTemplate.format(id=id,
-        username=os.environ['ICTRP_GET_USERNAME'],
-        password=os.environ['ICTRP_GET_PASSWORD'])
+        username=ICTRP_SECRETS['ICTRP_GET_USERNAME'],
+        password=ICTRP_SECRETS['ICTRP_GET_PASSWORD'])
     request = urllib.request.urlopen(url, timeout=60)
-    response = request.read()
+    response = request.read().decode('utf-8')
     request.close()
     return response
 

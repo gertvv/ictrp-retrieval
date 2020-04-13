@@ -12,6 +12,9 @@ import xml.etree.cElementTree as ET
 
 from util import stripInvalidXmlEntities
 
+import awsSecrets
+ICTRP_SECRETS = awsSecrets.getSecrets()
+
 def nctList():
     logger.info("Getting NCT ID list")
     url = 'https://clinicaltrials.gov/ct2/results/download?flds=k&down_stds=all&down_typ=fields&down_flds=shown&down_fmt=xml&show_down=Y'
@@ -35,11 +38,11 @@ def nctList():
 
 def ictrpList():
     logger.info("Getting ICTRP ID list")
-    url = 'http://apps.who.int/trialsearch/TrialService.asmx/GetTrials?Title=&username={username}&password={password}'.format(username=os.environ['ICTRP_LIST_USERNAME'], password=os.environ['ICTRP_LIST_PASSWORD'])
+    url = 'http://apps.who.int/trialsearch/TrialService.asmx/GetTrials?Title=&username={username}&password={password}'.format(username=ICTRP_SECRETS['ICTRP_LIST_USERNAME'], password=ICTRP_SECRETS['ICTRP_LIST_PASSWORD'])
     logger.info(url)
     request = urllib.request.urlopen(url)
     logger.info('Request complete')
-    xml = request.read()
+    xml = request.read().decode('utf-8')
     request.close()
     logger.info('Captured XML string')
     root = ET.fromstring(stripInvalidXmlEntities(xml))
@@ -52,14 +55,14 @@ def crawlList():
     baseUrl = "http://apps.who.int/trialsearch/crawl/"
 
     authinfo = urllib.request.HTTPPasswordMgrWithDefaultRealm()
-    authinfo.add_password(None, baseUrl, os.environ['ICTRP_CRAWL_USERNAME'], os.environ['ICTRP_CRAWL_PASSWORD'])
+    authinfo.add_password(None, baseUrl, ICTRP_SECRETS['ICTRP_CRAWL_USERNAME'], ICTRP_SECRETS['ICTRP_CRAWL_PASSWORD'])
     handler = urllib.request.HTTPBasicAuthHandler(authinfo)
     opener = urllib.request.build_opener(handler)
     urllib.request.install_opener(opener)
 
     def crawl(page):
         response = urllib.request.urlopen(baseUrl + page)
-        body = response.read()
+        body = response.read().decode('utf-8')
         response.close()
         return body
 
