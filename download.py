@@ -52,7 +52,7 @@ def processId(outfile, id):
         try:
             content = reduceXml(download(id))
             if content:
-                outfile.write(content)
+                outfile.write(content.encode('utf-8'))
                 return True
             else:
                 logger.warn("no content for {} (attempt {})".format(id, attempt))
@@ -64,19 +64,19 @@ def processId(outfile, id):
     return False
 
 def downloadRecords(idlist, outfile, pauseForAttempt3=False):
-    outfile.write('<ICTRP xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:diffgr="urn:schemas-microsoft-com:xml-diffgram-v1">\n')
+    outfile.write(b'<ICTRP xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:diffgr="urn:schemas-microsoft-com:xml-diffgram-v1">\n')
     # attempt 1
     failed = [id for id in idlist if not processId(outfile, id)]
     logger.info('failed on attempt 1: {} records'.format(len(failed)))
     if len(failed) == 0:
-        outfile.write('</ICTRP>')
+        outfile.write(b'</ICTRP>')
         return []
     # attempt 2
     idlist = failed
     failed = [id for id in idlist if not processId(outfile, id)]
     logger.info('failed on attempt 2: {} records'.format(len(failed)))
     if len(failed) == 0:
-        outfile.write('</ICTRP>')
+        outfile.write(b'</ICTRP>')
         return []
     # attempt 3
     if pauseForAttempt3:
@@ -85,5 +85,5 @@ def downloadRecords(idlist, outfile, pauseForAttempt3=False):
     idlist = failed
     failed = [id for id in idlist if not processId(outfile, id)]
     logger.info('failed on attempt 3: {} records'.format(len(failed)))
-    outfile.write('</ICTRP>')
+    outfile.write(b'</ICTRP>')
     return failed

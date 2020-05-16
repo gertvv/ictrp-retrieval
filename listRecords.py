@@ -78,9 +78,10 @@ def crawlList():
 def allList():
     il = frozenset(ictrpList())
     nl = frozenset(nctList())
-    cl = frozenset(crawlList())
-    al = sorted(cl.union(il, nl))
-    logging.info("From Crawl but not listing: {}".format(sorted(cl.difference(il, nl))))
-    logging.info("From list but not Crawl: {}".format(sorted(il.difference(cl))))
-    logging.info("From ClinicalTrials.gov but not Crawl: {}".format(sorted(nl.difference(cl))))
-    return al
+    return il.union(nl)
+    #cl = frozenset(crawlList())
+    #al = sorted(cl.union(il, nl))
+    #logging.info("From Crawl but not listing: {}".format(sorted(cl.difference(il, nl))))
+    #logging.info("From list but not Crawl: {}".format(sorted(il.difference(cl))))
+    #logging.info("From ClinicalTrials.gov but not Crawl: {}".format(sorted(nl.difference(cl))))
+    #return al
