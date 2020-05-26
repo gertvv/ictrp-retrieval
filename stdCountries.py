@@ -3,6 +3,7 @@ import json
 import re
 from functools import reduce
 import operator
+import os
 
 import logging
 logger = logging.getLogger()
@@ -11,13 +12,13 @@ def mangleCountryName(name):
     return re.sub("[\W]", "", name.lower())
 
 isoCountries = {}
-with open("countries-iso-3166.json") as f:
+with open(os.path.dirname(__file__) + "/countries-iso-3166.json") as f:
     isoCountries = dict((mangleCountryName(c["name"]), c) for c in json.load(f))
     parenthetical = re.compile("^([^\(]*) \(([^\)]*)\)$")
     paren = [x for x in [[parenthetical.match(c["name"]), c] for c in list(isoCountries.values())] if not not x[0]]
     for [m, c] in paren:
         isoCountries[mangleCountryName(m.groups()[1] + " " + m.groups()[0])] = c
-    with open("countries-common-names.json") as g:
+    with open(os.path.dirname(__file__) + "/countries-common-names.json") as g:
         for name, alt_names in list(json.load(g).items()):
             for alt_name in alt_names:
                 isoCountries[mangleCountryName(alt_name)] = isoCountries[mangleCountryName(name)]

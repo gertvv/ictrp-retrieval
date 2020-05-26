@@ -154,7 +154,7 @@ dateRegisteredFormat = {
     'REPEC': '%d/%m/%Y',
     'LBCTR': '%d/%m/%Y'
 }
-    
+
 # The date registered has a registry-dependent format
 def stdDateRegistered(reg, val): # TODO
     try: 
